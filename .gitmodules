@@ -1,0 +1,3 @@
+[submodule "amc7812"]
+	path = amc7812
+	url = https://github.com/Orthogonal-Systems/amc7812.git
