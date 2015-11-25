@@ -31,4 +31,8 @@ add_subdirectory(Wire)            # I2C/TWI communication
 
 ### User Projects and Libraries
 add_subdirectory(amc7812)         # TI AMC7812 ADC & DAC
+### add example executable directories, but dont automatically compile it
+### to compile: cd build ; make amc7812_[example name]
+add_subdirectory(amc7812/examples EXCLUDE_FROM_ALL)
+
 add_subdirectory(usart)           # simple serial communication, without arduino
