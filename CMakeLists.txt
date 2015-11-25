@@ -7,12 +7,12 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
  
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
- 
+
 include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}")
  
 ### Main Arduino library that must be included if any arduino library is used
-add_subdirectory(Arduino) 
+add_subdirectory(libarduinocore) 
 ### Standard Arduino 1.0.5 libraries
 add_subdirectory(EEPROM)          # EEPROM
 #add_subdirectory(Esplora)        # esplora is not supported
@@ -25,7 +25,7 @@ add_subdirectory(Servo)           # library for servo motor control
 add_subdirectory(SoftwareSerial)  # bit-banged serial communication
 add_subdirectory(SPI)             # SPI communication library
 add_subdirectory(Stepper)         # library for stepper motor control
-add_subdirectory(TFT)             # library for TFT LCD screen
+#add_subdirectory(TFT)             # library for TFT LCD screen is not supported right now
 add_subdirectory(WiFi)            # library for wifi sheild
 add_subdirectory(Wire)            # I2C/TWI communication
 

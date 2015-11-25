@@ -18,8 +18,10 @@
 */
 
 extern "C" {
-  #include "utility/debug.h"
-  #include "utility/wifi_spi.h"
+  //#include "utility/debug.h"
+  //#include "utility/wifi_spi.h"
+  #include "debug.h"
+  #include "wifi_spi.h"
 }
 #include <string.h>
 #include "server_drv.h"

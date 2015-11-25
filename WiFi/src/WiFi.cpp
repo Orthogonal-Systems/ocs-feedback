@@ -21,8 +21,10 @@
 #include "WiFi.h"
 
 extern "C" {
-  #include "utility/wl_definitions.h"
-  #include "utility/wl_types.h"
+//  #include "utility/wl_definitions.h"
+//  #include "utility/wl_types.h"
+  #include "wl_definitions.h"
+  #include "wl_types.h"
   #include "debug.h"
 }
 

@@ -17,6 +17,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/*
 extern "C" {
   #include "utility/wl_definitions.h"
   #include "utility/wl_types.h"
@@ -24,12 +25,20 @@ extern "C" {
   #include "string.h"
   #include "utility/debug.h"
 }
+*/
+
+extern "C" {
+  #include "wl_definitions.h"
+  #include "wl_types.h"
+  #include "socket.h"
+  #include "string.h"
+  #include "debug.h"
+}
 
 #include "WiFi.h"
 #include "WiFiClient.h"
 #include "WiFiServer.h"
 #include "server_drv.h"
-
 
 uint16_t WiFiClient::_srcport = 1024;
 
