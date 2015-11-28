@@ -18,4 +18,4 @@ link_libraries(ARDUINO)
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
  
-add_library(${PROJECT_NAME} STATIC ${WIRE_SRCS})
+add_avr_library(${PROJECT_NAME} STATIC ${WIRE_SRCS})
