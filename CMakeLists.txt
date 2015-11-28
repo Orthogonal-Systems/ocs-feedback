@@ -176,4 +176,5 @@ add_subdirectory(usart)           # simple serial communication, without arduino
 
 ### add example executable directories, but dont automatically compile it
 ### to compile: cd build ; make amc7812_[example name]
+add_subdirectory(blink EXCLUDE_FROM_ALL)
 add_subdirectory(amc7812/examples EXCLUDE_FROM_ALL)
