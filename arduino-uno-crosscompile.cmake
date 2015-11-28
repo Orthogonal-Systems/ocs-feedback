@@ -80,9 +80,9 @@ ENDIF(NOT AVR_SIZE_ARGS)
 ################################################################################
 ### MCU and fuses
 SET(AVR_MCU "atmega328p")
-SET(H_FUSE "0xff")
-SET(L_FUSE "0xde")
-SET(E_FUSE "0x05")
+SET(AVR_H_FUSE "0xff")
+SET(AVR_L_FUSE "0xde")
+SET(AVR_E_FUSE "0x05")
 SET(F_CPU "16000000L")
 
 ### if we are appending the mcu to the filename set that here
@@ -246,6 +246,7 @@ function(add_avr_executable EXECUTABLE_NAME)
       ${AVR_UPLOADTOOL} -p ${AVR_MCU} -c ${AVR_PROGRAMMER} -P ${AVR_UPLOADTOOL_PORT} -n
          -U lfuse:r:-:b
          -U hfuse:r:-:b
+         -U efuse:r:-:b
       COMMENT "Get fuses from ${AVR_MCU}"
    )
 

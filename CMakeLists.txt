@@ -30,9 +30,9 @@ SET(AVR_UPLOADTOOL_PORT /dev/ttyACM*)
 # MCU and fuses
 SET(AVR_MCU atmega328p)
 SET(F_CPU "16000000L")  # Hz
-SET(H_FUSE 0xff)
-SET(L_FUSE 0xde)
-SET(E_FUSE 0x05) # for arduino bootloader only I think
+SET(AVR_H_FUSE 0xff)
+SET(AVR_L_FUSE 0xde)
+SET(AVR_E_FUSE 0x05) # for arduino bootloader only I think
 
 
 ################################################################################
