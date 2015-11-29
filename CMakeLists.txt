@@ -25,30 +25,44 @@ project (ocs-base)
 # define custom toolchain and mcu here
 ################################################################################
 SET(AVR_UPLOADTOOL avrdude)
-SET(AVR_PROGRAMMER arduino)
+SET(AVR_UPLOADTOOL_STAT [USER])
 SET(AVR_UPLOADTOOL_PORT /dev/ttyACM*)
-# MCU and fuses
-SET(AVR_MCU atmega328p)
-SET(F_CPU "16000000L")  # Hz
-SET(AVR_H_FUSE 0xff)
-SET(AVR_L_FUSE 0xde)
-SET(AVR_E_FUSE 0x05) # for arduino bootloader only I think
+SET(AVR_UPLOADTOOL_PORT_STAT [USER])
 
+SET(TOOLS_DIR "${CMAKE_SOURCE_DIR}/tools")
+
+### AUTOMATIC BOARD SETTINGS
+# set values based on arduino style boards.txt file
+include(${TOOLS_DIR}/boards_txt-reader.cmake)
+read_boards_txt_file("uno")
+
+### MANUAL BOARD SETTINGS, UNCOMMMET LINE PAIRS OR THE STAT WILL BE WRONG
+# MCU and fuses
+#SET(AVR_MCU atmega328p)
+#SET(AVR_MCU_STAT [USER])
+#SET(F_CPU "16000000L")  # Hz
+#SET(F_CPU_STAT [USER])
+#SET(AVR_H_FUSE 0xff)
+#SET(AVR_H_FUSE_STAT [USER])
+#SET(AVR_L_FUSE 0xde)
+#SET(AVR_L_FUSE_STAT [USER])
+#SET(AVR_E_FUSE 0x05) # for arduino bootloader only I think
+#SET(AVR_E_FUSE_STAT [USER])
+#SET(AVR_PROGRAMMER arduino)
+#SET(AVR_PROGRAMMER_STAT [USER])
 
 ################################################################################
 # status messages
 ################################################################################
 message(STATUS "Current C compiler is: ${CMAKE_C_COMPILER}")
 message(STATUS "Current CXX compiler is: ${CMAKE_CXX_COMPILER}")
-message(STATUS "Current programmer is: ${AVR_PROGRAMMER}")
-message(STATUS "Current uploadtool is: ${AVR_UPLOADTOOL}")
-message(STATUS "Current programmer is: ${AVR_PROGRAMMER}")
-message(STATUS "Current upload port is: ${AVR_UPLOADTOOL_PORT}")
-message(STATUS "Current uploadtool options are: ${AVR_UPLOADTOOL_OPTIONS}")
-message(STATUS "Current MCU is set to: ${AVR_MCU}")
-message(STATUS "Current H_FUSE is set to: ${AVR_H_FUSE}")
-message(STATUS "Current L_FUSE is set to: ${AVR_L_FUSE}")
-message(STATUS "Current E_FUSE is set to: ${AVR_E_FUSE}")
+message(STATUS "${AVR_UPLOADTOOL_STAT}: Current uploadtool is: ${AVR_UPLOADTOOL}")
+message(STATUS "${AVR_PROGRAMMER_STAT}: Current programmer is: ${AVR_PROGRAMMER}")
+message(STATUS "${AVR_UPLOADTOOL_PORT_STAT}: Current upload port is: ${AVR_UPLOADTOOL_PORT}")
+message(STATUS "${AVR_MCU_STAT}: Current MCU is set to: ${AVR_MCU}")
+message(STATUS "${AVR_H_FUSE_STAT}: Current H_FUSE is set to: ${AVR_H_FUSE}")
+message(STATUS "${AVR_L_FUSE_STAT}: Current L_FUSE is set to: ${AVR_L_FUSE}")
+message(STATUS "${AVR_E_FUSE_STAT}: Current E_FUSE is set to: ${AVR_E_FUSE}")
 
 ################################################################################
 # set build type, don't clobber, default is Release due to timing stuff
@@ -137,7 +151,7 @@ add_definitions(-DARDUINO=${ARDUINO_VERSION})
 ##################################################################################
 # stuff specific to this project
 ##################################################################################
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build/${AVR_MCU})
  
 #set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

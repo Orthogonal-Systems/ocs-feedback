@@ -20,7 +20,7 @@
 
 ################################################################################
 ### Options
-option(WITH_MCU "Add the mCU type to the target filename." ON)
+option(WITH_MCU "Add the mCU type to the target filename." OFF)#ON)
 
 ################################################################################
 ### avr toolchain executables
@@ -45,6 +45,7 @@ IF(NOT AVR_UPLOADTOOL)
     AVR_UPLOADTOOL avrdude
     CACHE STRING "Set default upload tool: avrdude"
   )
+  SET(AVR_UPLOADTOOL_STAT [DEFAULT])
   find_program(AVR_UPLOADTOOL avrdude)
 endif(NOT AVR_UPLOADTOOL)
 
@@ -53,6 +54,7 @@ IF(NOT AVR_UPLOADTOOL_PORT)
     AVR_UPLOADTOOL_PORT /dev/ttyACM*
     CACHE STRING "Set default upload tool port: ttyACM*"
   )
+  SET(AVR_UPLOADTOOL_PORT_STAT [DEFAULT])
 endif(NOT AVR_UPLOADTOOL_PORT)
 
 IF(NOT AVR_PROGRAMMER)
@@ -60,6 +62,7 @@ IF(NOT AVR_PROGRAMMER)
     AVR_PROGRAMMER arduino#avrispmkII
     CACHE STRING "Set default programmer hardware model: arduino"
   )
+  SET(AVR_PROGRAMMER_STAT [DEFAULT])
 endif(NOT AVR_PROGRAMMER)
 
 #IF(NOT AVR_MCU)
@@ -79,11 +82,16 @@ ENDIF(NOT AVR_SIZE_ARGS)
 
 ################################################################################
 ### MCU and fuses
-SET(AVR_MCU "atmega328p")
-SET(AVR_H_FUSE "0xff")
-SET(AVR_L_FUSE "0xde")
-SET(AVR_E_FUSE "0x05")
-SET(F_CPU "16000000L")
+SET(AVR_MCU atmega328p)
+SET(AVR_MCU_STAT [DEFAULT])
+SET(F_CPU "16000000L")  # Hz
+SET(F_CPU_STAT [DEFAULT])
+SET(AVR_H_FUSE 0xff)
+SET(AVR_H_FUSE_STAT [DEFAULT])
+SET(AVR_L_FUSE 0xde)
+SET(AVR_L_FUSE_STAT [DEFAULT])
+SET(AVR_E_FUSE 0x05) # for arduino bootloader only I think
+SET(AVR_E_FUSE_STAT [DEFAULT])
 
 ### if we are appending the mcu to the filename set that here
 IF(WITH_MCU)
@@ -324,8 +332,8 @@ function(add_avr_library LIBRARY_NAME)
       )
    endif(NOT TARGET ${LIBRARY_NAME})
 
-   message(STATUS "LIBRARY_NAME: ${LIBRARY_NAME}")
-   message(STATUS "lib_file: ${lib_file}")
+   #message(STATUS "LIBRARY_NAME: ${LIBRARY_NAME}")
+   #message(STATUS "lib_file: ${lib_file}")
 endfunction(add_avr_library)
 
 ##########################################################################
@@ -352,8 +360,8 @@ function(avr_target_link_libraries EXECUTABLE_TARGET)
       endif(TARGET ${TGT})
    endforeach(TGT ${ARGN})
 
-   message(STATUS "TARGET_LIST: ${TARGET_LIST}")
-   message(STATUS "NON_TARGET_LIST: ${NON_TARGET_LIST}")
+   #message(STATUS "TARGET_LIST: ${TARGET_LIST}")
+   #message(STATUS "NON_TARGET_LIST: ${NON_TARGET_LIST}")
 
    target_link_libraries(${TARGET_LIST} ${NON_TARGET_LIST})
 endfunction(avr_target_link_libraries EXECUTABLE_TARGET)
