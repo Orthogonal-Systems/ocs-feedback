@@ -11,6 +11,7 @@
 # AVR_H_FUSE      - upper fuse byte
 # AVR_E_FUSE      - extended fuse byte, not for all devices
 # AVR_UPLOAD_BAUD - baudrate for upload
+# BOARD_VARIANT   - finding pins_arduino.h file
 
 function(parse_boards_txt_file BOARD_NAME EXPRESSION)
   file(STRINGS "${CMAKE_SOURCE_DIR}/tools/boards.txt" teststr REGEX "^${BOARD_NAME}${EXPRESSION}")
@@ -47,5 +48,9 @@ function(read_boards_txt_file BOARD_NAME)
   parse_boards_txt_file(${BOARD_NAME} "\.upload\.speed=")
   SET(AVR_UPLOAD_BAUD ${tempstr} PARENT_SCOPE)
   SET(AVR_UPLOAD_BAUD_STAT [AUTO] PARENT_SCOPE)
+
+  parse_boards_txt_file(${BOARD_NAME} "\.build\.variant=")
+  SET(BOARD_VARIANT ${tempstr} PARENT_SCOPE)
+  SET(BOARD_VARIANT_STAT [AUTO] PARENT_SCOPE)
 
 endfunction(read_boards_txt_file BOARD_NAME)

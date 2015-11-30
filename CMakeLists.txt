@@ -21,6 +21,9 @@
 cmake_minimum_required(VERSION 3.2)
 project (ocs-base)
  
+SET(BOARD_NAME "uno")
+#SET(BOARD_NAME "mega")
+
 ################################################################################
 # define custom toolchain and mcu here
 ################################################################################
@@ -34,35 +37,58 @@ SET(TOOLS_DIR "${CMAKE_SOURCE_DIR}/tools")
 ### AUTOMATIC BOARD SETTINGS
 # set values based on arduino style boards.txt file
 include(${TOOLS_DIR}/boards_txt-reader.cmake)
-read_boards_txt_file("uno")
+read_boards_txt_file(${BOARD_NAME})
 
 ### MANUAL BOARD SETTINGS, UNCOMMMET LINE PAIRS OR THE STAT WILL BE WRONG
 # MCU and fuses
-#SET(AVR_MCU atmega328p)
-#SET(AVR_MCU_STAT [USER])
-#SET(F_CPU "16000000L")  # Hz
-#SET(F_CPU_STAT [USER])
-#SET(AVR_H_FUSE 0xff)
-#SET(AVR_H_FUSE_STAT [USER])
-#SET(AVR_L_FUSE 0xde)
-#SET(AVR_L_FUSE_STAT [USER])
-#SET(AVR_E_FUSE 0x05) # for arduino bootloader only I think
-#SET(AVR_E_FUSE_STAT [USER])
-#SET(AVR_PROGRAMMER arduino)
-#SET(AVR_PROGRAMMER_STAT [USER])
+IF(NOT AVR_MCU)
+  SET(AVR_MCU atmega328p)
+  SET(AVR_MCU_STAT [DEFAULT])
+ELSE(NOT AVR_MCU)
+  SET(AVR_MCU ${AVR_MCU})
+ENDIF(NOT AVR_MCU)
 
-################################################################################
-# status messages
-################################################################################
-message(STATUS "Current C compiler is: ${CMAKE_C_COMPILER}")
-message(STATUS "Current CXX compiler is: ${CMAKE_CXX_COMPILER}")
-message(STATUS "${AVR_UPLOADTOOL_STAT}: Current uploadtool is: ${AVR_UPLOADTOOL}")
-message(STATUS "${AVR_PROGRAMMER_STAT}: Current programmer is: ${AVR_PROGRAMMER}")
-message(STATUS "${AVR_UPLOADTOOL_PORT_STAT}: Current upload port is: ${AVR_UPLOADTOOL_PORT}")
-message(STATUS "${AVR_MCU_STAT}: Current MCU is set to: ${AVR_MCU}")
-message(STATUS "${AVR_H_FUSE_STAT}: Current H_FUSE is set to: ${AVR_H_FUSE}")
-message(STATUS "${AVR_L_FUSE_STAT}: Current L_FUSE is set to: ${AVR_L_FUSE}")
-message(STATUS "${AVR_E_FUSE_STAT}: Current E_FUSE is set to: ${AVR_E_FUSE}")
+IF(NOT F_CPU)
+  SET(F_CPU "16000000L")  # Hz
+  SET(F_CPU_STAT [DEFAULT])
+ELSE(NOT F_CPU)
+  SET(AVR_MCU ${AVR_MCU})
+ENDIF(NOT F_CPU)
+
+IF(NOT AVR_H_FUSE)
+  SET(AVR_H_FUSE 0xff)
+  SET(AVR_H_FUSE_STAT [DEFAULT])
+ELSE(NOT AVR_H_FUSE)
+  SET(AVR_H_FUSE ${AVR_H_FUSE})
+ENDIF(NOT AVR_H_FUSE)
+
+IF(NOT AVR_L_FUSE)
+  SET(AVR_L_FUSE 0xde)
+  SET(AVR_L_FUSE_STAT [DEFAULT])
+ELSE(NOT AVR_L_FUSE)
+  SET(AVR_L_FUSE ${AVR_L_FUSE})
+ENDIF(NOT AVR_L_FUSE)
+
+IF(NOT AVR_E_FUSE)
+  SET(AVR_E_FUSE 0x05)
+  SET(AVR_E_FUSE_STAT [DEFAULT])
+ELSE(NOT AVR_E_FUSE)
+  SET(AVR_E_FUSE ${AVR_E_FUSE})
+ENDIF(NOT AVR_E_FUSE)
+
+IF(NOT AVR_PROGRAMMER)
+  SET(AVR_PROGRAMMER arduino)
+  SET(AVR_PROGRAMMER_STAT [DEFAULT])
+ELSE(NOT AVR_PROGRAMMER)
+  SET(AVR_PROGRAMMER ${AVR_PROGRAMMER})
+ENDIF(NOT AVR_PROGRAMMER)
+
+IF(NOT BOARD_VARIANT)
+  SET(BOARD_VARIANT standard)
+  SET(BOARD_VARIANT_STAT [DEFAULT])
+ELSE(NOT BOARD_VARIANT)
+  SET(BOARD_VARIANT ${BOARD_VARIANT})
+ENDIF(NOT BOARD_VARIANT)
 
 ################################################################################
 # set build type, don't clobber, default is Release due to timing stuff
@@ -92,15 +118,8 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 # not added automatically, since CMAKE_SYSTEM_NAME is "generic"
-set(CMAKE_SYSTEM_INCLUDE_PATH "${CMAKE_FIND_ROOT_PATH}/include")
+set(CMAKE_SYSTEM_INCLUDE_PATH "${CMAKE_FIND_ROOT_PATH}/include" )
 set(CMAKE_SYSTEM_LIBRARY_PATH "${CMAKE_FIND_ROOT_PATH}/lib")
-
-##################################################################################
-# status messages for generating
-##################################################################################
-message(STATUS "Set CMAKE_FIND_ROOT_PATH to ${CMAKE_FIND_ROOT_PATH}")
-message(STATUS "Set CMAKE_SYSTEM_INCLUDE_PATH to ${CMAKE_SYSTEM_INCLUDE_PATH}")
-message(STATUS "Set CMAKE_SYSTEM_LIBRARY_PATH to ${CMAKE_SYSTEM_LIBRARY_PATH}")
 
 ##################################################################################
 # set compiler options for build types
@@ -151,13 +170,16 @@ add_definitions(-DARDUINO=${ARDUINO_VERSION})
 ##################################################################################
 # stuff specific to this project
 ##################################################################################
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build/${AVR_MCU})
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build/${BOARD_NAME})
  
 #set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
  
-set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+# include the headers and the board pinout file
+set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
+                        ${PROJECT_SOURCE_DIR}/include/variants/${BOARD_VARIANT}
+)
 
 include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}")
@@ -192,3 +214,25 @@ add_subdirectory(usart)           # simple serial communication, without arduino
 ### to compile: cd build ; make amc7812_[example name]
 add_subdirectory(blink EXCLUDE_FROM_ALL)
 add_subdirectory(amc7812/examples EXCLUDE_FROM_ALL)
+
+################################################################################
+# status messages
+################################################################################
+message(STATUS "Current C compiler is: ${CMAKE_C_COMPILER}")
+message(STATUS "Current CXX compiler is: ${CMAKE_CXX_COMPILER}")
+message(STATUS "Current board name is: ${BOARD_NAME}")
+message(STATUS "${AVR_UPLOADTOOL_STAT}: Current uploadtool is: ${AVR_UPLOADTOOL}")
+message(STATUS "${AVR_PROGRAMMER_STAT}: Current programmer is: ${AVR_PROGRAMMER}")
+message(STATUS "${AVR_UPLOADTOOL_PORT_STAT}: Current upload port is: ${AVR_UPLOADTOOL_PORT}")
+message(STATUS "${AVR_MCU_STAT}: Current MCU is set to: ${AVR_MCU}")
+message(STATUS "${AVR_H_FUSE_STAT}: Current H_FUSE is set to: ${AVR_H_FUSE}")
+message(STATUS "${AVR_L_FUSE_STAT}: Current L_FUSE is set to: ${AVR_L_FUSE}")
+message(STATUS "${AVR_E_FUSE_STAT}: Current E_FUSE is set to: ${AVR_E_FUSE}")
+message(STATUS "${BOARD_VARIANT_STAT}: Current board variant is set to: ${BOARD_VARIANT}")
+
+##################################################################################
+# status messages for generating
+##################################################################################
+message(STATUS "Set CMAKE_FIND_ROOT_PATH to ${CMAKE_FIND_ROOT_PATH}")
+message(STATUS "Set CMAKE_SYSTEM_INCLUDE_PATH to ${CMAKE_SYSTEM_INCLUDE_PATH}")
+message(STATUS "Set CMAKE_SYSTEM_LIBRARY_PATH to ${CMAKE_SYSTEM_LIBRARY_PATH}")

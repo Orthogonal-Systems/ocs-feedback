@@ -65,13 +65,6 @@ IF(NOT AVR_PROGRAMMER)
   SET(AVR_PROGRAMMER_STAT [DEFAULT])
 endif(NOT AVR_PROGRAMMER)
 
-#IF(NOT AVR_MCU)
-#  SET(
-#    AVR_MCU atmega328p
-#    CACHE STRING "Set default MCU: atmega328p (see 'avr-gcc --target-help' for valid values)"
-#  )
-#endif(NOT AVR_MCU)
-
 IF(NOT AVR_SIZE_ARGS)
   IF(APPLE)
     set(AVR_SIZE_ARGS -B)
@@ -82,16 +75,26 @@ ENDIF(NOT AVR_SIZE_ARGS)
 
 ################################################################################
 ### MCU and fuses
-SET(AVR_MCU atmega328p)
-SET(AVR_MCU_STAT [DEFAULT])
-SET(F_CPU "16000000L")  # Hz
-SET(F_CPU_STAT [DEFAULT])
-SET(AVR_H_FUSE 0xff)
-SET(AVR_H_FUSE_STAT [DEFAULT])
-SET(AVR_L_FUSE 0xde)
-SET(AVR_L_FUSE_STAT [DEFAULT])
-SET(AVR_E_FUSE 0x05) # for arduino bootloader only I think
-SET(AVR_E_FUSE_STAT [DEFAULT])
+IF(NOT AVR_MCU)
+  SET(AVR_MCU atmega328p)
+  SET(AVR_MCU_STAT [DEFAULT])
+ENDIF(NOT AVR_MCU)
+IF(NOT F_CPU)
+  SET(F_CPU "16000000L")  # Hz
+  SET(F_CPU_STAT [DEFAULT])
+ENDIF(NOT F_CPU)
+IF(NOT AVR_H_FUSE)
+  SET(AVR_H_FUSE 0xff)
+  SET(AVR_H_FUSE_STAT [DEFAULT])
+ENDIF(NOT AVR_H_FUSE)
+IF(NOT AVR_L_FUSE)
+  SET(AVR_L_FUSE 0xde)
+  SET(AVR_L_FUSE_STAT [DEFAULT])
+ENDIF(NOT AVR_L_FUSE)
+IF(NOT AVR_E_FUSE)
+  SET(AVR_E_FUSE 0x05) # for arduino bootloader only I think
+  SET(AVR_E_FUSE_STAT [DEFAULT])
+ENDIF(NOT AVR_E_FUSE)
 
 ### if we are appending the mcu to the filename set that here
 IF(WITH_MCU)
