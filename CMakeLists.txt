@@ -18,7 +18,7 @@
 # Matthias Kleemann
 ##################################################################################
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 2.8)
 project (ocs-base)
  
 SET(BOARD_NAME "uno")
@@ -37,7 +37,7 @@ SET(ARDUINO_SETTINGS_FILE "${CMAKE_SOURCE_DIR}/cmake/arduino-crosscompile.cmake"
 
 ### AUTOMATIC BOARD SETTINGS
 # set values based on arduino style boards.txt file
-include(${TOOLS_DIR}/boards_txt-reader.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/boards_txt-reader.cmake)
 read_boards_txt_file(${BOARD_NAME})
 
 ### MANUAL BOARD SETTINGS, UNCOMMMET LINE PAIRS OR THE STAT WILL BE WRONG
@@ -157,15 +157,13 @@ add_definitions("-Wall")
 #add_definitions("-funsigned-bitfields")
 #add_definitions("-ffunction-sections")
 add_definitions("-c")
-#add_definitions("-std=gnu99")
-SET(CMAKE_C_STANDARD 99)
-SET(CMAKE_CXX_STANDARD 11)
+LIST(APPEND CMAKE_C_FLAGS "-std=gnu99")
+LIST(APPEND CMAKE_CXX_FLAGS "-std=gnu++11")
+
 add_definitions(-DARDUINO=${ARDUINO_VERSION})
 #SET(COPT "-Os")
 ##SET(CINCS "-I${ArduinoCode_SOURCE_DIR}/libarduinocore")
 #add_definitions("-gstabs")
-#add_definitions("-mmcu=${MCU}")
-#add_definitions(-DF_CPU=${F_CPU})
 #add_definitions("-Wall -Wstrict-prototypes")
 
 ##################################################################################

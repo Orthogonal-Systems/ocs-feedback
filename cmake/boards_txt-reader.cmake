@@ -21,35 +21,35 @@ function(parse_boards_txt_file BOARD_NAME EXPRESSION)
 endfunction(parse_boards_txt_file BOARD_NAME)
 
 function(read_boards_txt_file BOARD_NAME)
-  parse_boards_txt_file(${BOARD_NAME} "\.build\.mcu=")
+  parse_boards_txt_file(${BOARD_NAME} "\\.build\\.mcu=")
   SET(AVR_MCU ${tempstr} PARENT_SCOPE)
   SET(AVR_MCU_STAT [AUTO] PARENT_SCOPE)
 
-  parse_boards_txt_file(${BOARD_NAME} "\.build\.f_cpu=")
+  parse_boards_txt_file(${BOARD_NAME} "\\.build\\.f_cpu=")
   SET(F_CPU ${tempstr} PARENT_SCOPE)
   SET(F_CPU_STAT [AUTO] PARENT_SCOPE)
 
-  parse_boards_txt_file(${BOARD_NAME} "\.upload\.protocol=")
+  parse_boards_txt_file(${BOARD_NAME} "\\.upload\\.protocol=")
   SET(AVR_PROGRAMMER ${tempstr} PARENT_SCOPE)
   SET(AVR_PROGRAMMER_STAT [AUTO] PARENT_SCOPE)
 
-  parse_boards_txt_file(${BOARD_NAME} "\.bootloader\.low_fuses=")
+  parse_boards_txt_file(${BOARD_NAME} "\\.bootloader\\.low_fuses=")
   SET(AVR_L_FUSE ${tempstr} PARENT_SCOPE)
   SET(AVR_L_FUSE_STAT [AUTO] PARENT_SCOPE)
 
-  parse_boards_txt_file(${BOARD_NAME} "\.bootloader\.high_fuses=")
+  parse_boards_txt_file(${BOARD_NAME} "\\.bootloader\\.high_fuses=")
   SET(AVR_H_FUSE ${tempstr} PARENT_SCOPE)
   SET(AVR_H_FUSE_STAT [AUTO] PARENT_SCOPE)
 
-  parse_boards_txt_file(${BOARD_NAME} "\.bootloader\.extended_fuses=")
+  parse_boards_txt_file(${BOARD_NAME} "\\.bootloader\\.extended_fuses=")
   SET(AVR_E_FUSE ${tempstr} PARENT_SCOPE)
   SET(AVR_E_FUSE_STAT [AUTO] PARENT_SCOPE)
 
-  parse_boards_txt_file(${BOARD_NAME} "\.upload\.speed=")
+  parse_boards_txt_file(${BOARD_NAME} "\\.upload\\.speed=")
   SET(AVR_UPLOAD_BAUD ${tempstr} PARENT_SCOPE)
   SET(AVR_UPLOAD_BAUD_STAT [AUTO] PARENT_SCOPE)
 
-  parse_boards_txt_file(${BOARD_NAME} "\.build\.variant=")
+  parse_boards_txt_file(${BOARD_NAME} "\\.build\\.variant=")
   SET(BOARD_VARIANT ${tempstr} PARENT_SCOPE)
   SET(BOARD_VARIANT_STAT [AUTO] PARENT_SCOPE)
 

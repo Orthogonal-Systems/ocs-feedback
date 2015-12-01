@@ -7,7 +7,7 @@ Arduino libraries are from 1.0.5 branch since >1.0 is mostly centered around exp
 What I've run it with.  I need to improve this list.
 
  * make 3.81
- * cmake 3.2.2 (Most of it probably works with 2.8)
+ * cmake 2.8.12
  * avr-gcc (GCC) 4.8.2
  * avr-libc 1.8.0
  * avr-binutils
@@ -31,12 +31,16 @@ $ cmake .. ; make
 Build .elf and .hex files (stored in build/bin/)
 ```Bash
 $ cd build
-$ make amc7812_test
+$ make blink-arduino
 ```
 
 Edit top-level CMakeLists.txt file to have the correct output port: SET(AVR_UPLOADTOOL_PORT "/dev/[your port here]")
 
 upload to uno (you can do this without the previous make statement)
 ```Bash
-$ make upload_amc7812_test
+$ make upload_blink-arduino
+```
+A non-arduino version is also available:
+```Bash
+$ make upload_blink-avr
 ```
