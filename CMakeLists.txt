@@ -33,6 +33,7 @@ SET(AVR_UPLOADTOOL_PORT /dev/ttyACM*)
 SET(AVR_UPLOADTOOL_PORT_STAT [USER])
 
 SET(TOOLS_DIR "${CMAKE_SOURCE_DIR}/tools")
+SET(ARDUINO_SETTINGS_FILE "${CMAKE_SOURCE_DIR}/cmake/arduino-crosscompile.cmake")
 
 ### AUTOMATIC BOARD SETTINGS
 # set values based on arduino style boards.txt file
@@ -236,3 +237,9 @@ message(STATUS "${BOARD_VARIANT_STAT}: Current board variant is set to: ${BOARD_
 message(STATUS "Set CMAKE_FIND_ROOT_PATH to ${CMAKE_FIND_ROOT_PATH}")
 message(STATUS "Set CMAKE_SYSTEM_INCLUDE_PATH to ${CMAKE_SYSTEM_INCLUDE_PATH}")
 message(STATUS "Set CMAKE_SYSTEM_LIBRARY_PATH to ${CMAKE_SYSTEM_LIBRARY_PATH}")
+
+##########################################################################
+# use default documentation target
+##########################################################################
+set(DOXYGEN_CONF_IN "doxygen.conf")
+include("${CMAKE_SOURCE_DIR}/cmake/Modules/defaultDocuTarget.cmake")
