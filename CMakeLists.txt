@@ -21,7 +21,8 @@
 cmake_minimum_required(VERSION 2.8)
 project (ocs-base)
  
-SET(BOARD_NAME "uno")
+#SET(BOARD_NAME "uno")
+SET(BOARD_NAME "mega2560")
 #SET(BOARD_NAME "mega")
 
 ################################################################################
@@ -236,7 +237,6 @@ add_subdirectory(libarduinocore)
 ### Standard Arduino 1.0.5 libraries
 add_subdirectory(EEPROM)          # EEPROM
 #add_subdirectory(Esplora)        # esplora is not supported
-#add_subdirectory(Ethernet)        # Ethernet Library
 #add_subdirectory(Firmata)        # Firmata is not supported  
 add_subdirectory(GSM)             # library for the GSM shield
 add_subdirectory(LiquidCrystal)   # library for most text based LCDs
@@ -248,6 +248,12 @@ add_subdirectory(Stepper)         # library for stepper motor control
 #add_subdirectory(TFT)             # library for TFT LCD screen is not supported right now
 add_subdirectory(WiFi)            # library for wifi sheild
 add_subdirectory(Wire)            # I2C/TWI communication
+
+### ETHERNET LIBRARIES, CAN ONLY HAVE 1 ACTIVATED OR THEY INTERFERE
+# if you change the library type you have to copy the headers into the 
+# {PROJECT)DIR}/include directory, since some of them have the same names
+#add_subdirectory(Ethernet)        # Ethernet Library for Wiznet W5100 chip
+add_subdirectory(uIPEthernet)     # uIPEthernet Library for Micochip ENC28J60 chip
 
 ##################################################################################
 ### User Projects and Libraries
@@ -261,6 +267,7 @@ add_subdirectory(usart)           # simple serial communication, without arduino
 ### to compile: cd build ; make amc7812_[example name]
 add_subdirectory(blink EXCLUDE_FROM_ALL)
 add_subdirectory(amc7812/examples EXCLUDE_FROM_ALL)
+add_subdirectory(uIPEthernet/examples/udpDataStream EXCLUDE_FROM_ALL)
 
 ################################################################################
 # status messages

@@ -4,7 +4,7 @@
 #ifndef Dhcp_h
 #define Dhcp_h
 
-#include "EthernetUdp.h"
+#include "UIPUdp.h"
 
 /* DHCP state machine. */
 #define STATE_DHCP_START 0
@@ -44,7 +44,7 @@
 #define MAGIC_COOKIE		0x63825363
 #define MAX_DHCP_OPT	16
 
-#define HOST_NAME "WIZnet"
+#define HOST_NAME "ENC28J"
 #define DEFAULT_LEASE	(900) //default lease time in seconds
 
 #define DHCP_CHECK_NONE         (0)
@@ -155,7 +155,7 @@ private:
   unsigned long _responseTimeout;
   unsigned long _secTimeout;
   uint8_t _dhcp_state;
-  EthernetUDP _dhcpUdpSocket;
+  UIPUDP _dhcpUdpSocket;
   
   int request_DHCP_lease();
   void reset_DHCP_lease();

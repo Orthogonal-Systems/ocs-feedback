@@ -4,3 +4,6 @@
 [submodule "usart"]
 	path = usart
 	url = https://github.com/Orthogonal-Systems/usart.git
+[submodule "arduino_uip"]
+	path = uIPEthernet
+	url = https://github.com/Orthogonal-Systems/arduino_uip.git
