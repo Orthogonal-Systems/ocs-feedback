@@ -23,7 +23,7 @@ project (ocs-base)
  
 #SET(BOARD_NAME "uno")
 SET(BOARD_NAME "mega2560")
-#SET(BOARD_NAME "mega")
+#SET(BOARD_NAME "mega") // older
 
 ################################################################################
 # define custom toolchain and mcu here
