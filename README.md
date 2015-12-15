@@ -44,3 +44,8 @@ A non-arduino version is also available:
 ```Bash
 $ make upload_blink-avr
 ```
+
+## Pinouts
+Board pinouts are stored in "include/variants/{board_name}/".
+If your application requires board specific macros (like pin definitions), it is recommended to also place your pinout header in the relevant variant directory.
+See amc7812conf.h file from the included example library, for example.
