@@ -22,11 +22,11 @@
 
 #include "ethernet_comp.h"
 #include "Print.h"
-#import "Client.h"
-#import "mempool.h"
+#include "Client.h"
+#include "mempool.h"
 
 extern "C" {
-  #import "uip.h"
+  #include "uip.h"
 }
 
 #define UIP_SOCKET_DATALEN UIP_TCP_MSS

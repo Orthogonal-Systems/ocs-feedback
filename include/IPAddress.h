@@ -20,6 +20,8 @@
 #ifndef IPAddress_h
 #define IPAddress_h
 
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+
 #include <Printable.h>
 
 // A class to make it easier to handle and pass around IP addresses

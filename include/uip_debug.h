@@ -1,7 +1,7 @@
 #ifndef UIP_DEBUG_H
 #define UIP_DEBUG_H
 extern "C" {
-  #import "uip.h"
+  #include "uip.h"
 }
 
 class UIPDebug {

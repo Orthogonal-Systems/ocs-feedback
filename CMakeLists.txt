@@ -148,6 +148,7 @@ add_definitions("-DF_CPU=${F_CPU}")
 #add_definitions("-fpack-struct")
 add_definitions("-fshort-enums")
 add_definitions("-Wall")
+#add_definitions("-Wno-strict-aliasing")
 #add_definitions("-Werror") # treat warnings as errors
 # http://gcc.gnu.org/onlinedocs/gcc-4.8.2/gcc/Alternate-Keywords.html#Alternate-Keywords
 # [...]-pedantic and other options cause warnings for many GNU C extensions. You can prevent such warnings within
@@ -238,7 +239,7 @@ add_subdirectory(libarduinocore)
 add_subdirectory(EEPROM)          # EEPROM
 #add_subdirectory(Esplora)        # esplora is not supported
 #add_subdirectory(Firmata)        # Firmata is not supported  
-add_subdirectory(GSM)             # library for the GSM shield
+#add_subdirectory(GSM)            # library for the GSM shield, not supported
 add_subdirectory(LiquidCrystal)   # library for most text based LCDs
 add_subdirectory(SD)              # library for sd cards
 add_subdirectory(Servo)           # library for servo motor control
