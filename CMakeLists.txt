@@ -148,6 +148,9 @@ add_definitions("-DF_CPU=${F_CPU}")
 #add_definitions("-fpack-struct")
 add_definitions("-fshort-enums")
 add_definitions("-Wall")
+add_definitions("-fno-diagnostics-show-caret")
+#add_definitions("-ftrack-macro-expansion=0") # uncomment me to make pragma msgs prettier
+
 #add_definitions("-Wno-strict-aliasing")
 #add_definitions("-Werror") # treat warnings as errors
 # http://gcc.gnu.org/onlinedocs/gcc-4.8.2/gcc/Alternate-Keywords.html#Alternate-Keywords
