@@ -1,9 +1,9 @@
 [submodule "amc7812"]
 	path = amc7812
 	url = https://github.com/Orthogonal-Systems/amc7812.git
-[submodule "usart"]
-	path = usart
-	url = https://github.com/Orthogonal-Systems/usart.git
 [submodule "arduino_uip"]
 	path = uIPEthernet
 	url = https://github.com/Orthogonal-Systems/arduino_uip.git
+[submodule "feedbackLib"]
+	path = feedbackLib
+	url = https://github.com/Orthogonal-Systems/feedbackLib.git

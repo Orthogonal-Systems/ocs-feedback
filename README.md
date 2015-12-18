@@ -1,7 +1,10 @@
-# ocs-base
-Base repository structure for open control systems (OCS) projects.
+# ocs-feedback
+Firmware for that implements a feedback loop with the amc7812 ADC & DAC chip.
+The analog interface exposes 16 ADCs and 12 DACs.
 
-Arduino libraries are from 1.0.5 branch since >1.0 is mostly centered around expanding hardware support.
+A final hardware design is, as of yet, unfinished.
+
+Derived from the ocs-base project.
 
 ## Dependancies
 What I've run it with.  I need to improve this list.
@@ -16,8 +19,8 @@ What I've run it with.  I need to improve this list.
 
 ## Setup
 ```Bash
-$ git clone https://github.com/orthogonal-systems/ocs-base MyOCSProject
-$ cd MyOCSProject
+$ git clone https://github.com/orthogonal-systems/ocs-feedback MyOCSFeedbackProject
+$ cd MyOCSFeedbackProject
 $ git submodule update --init --recursive
 ```
 
@@ -31,18 +34,14 @@ $ cmake .. ; make
 Build .elf and .hex files (stored in build/bin/)
 ```Bash
 $ cd build
-$ make blink-arduino
+$ make amc7812_test
 ```
 
 Edit top-level CMakeLists.txt file to have the correct output port: SET(AVR_UPLOADTOOL_PORT "/dev/[your port here]")
 
-upload to uno (you can do this without the previous make statement)
+upload to mega (you can do this without the previous make statement)
 ```Bash
-$ make upload_blink-arduino
-```
-A non-arduino version is also available:
-```Bash
-$ make upload_blink-avr
+$ make upload_amc7812_test
 ```
 
 ## Pinouts
