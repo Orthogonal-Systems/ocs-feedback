@@ -18,6 +18,8 @@
 // I want a configuration file in the working directory to override the default
 #pragma message "using configuration file found at path: " __FILE__
 
+#define AMC7812_TIMEOUT_CONV_CYCLS 16000 // 1 ms at 16 MHz clock, ignoring overhead
+
 // VOLTAGE REFERENCE
 // store as string to send as in data packet since we dont want to do fp math
 #define AMC7812_INT_AVREF "2.5"
@@ -53,6 +55,6 @@
 // OPTIONAL: conversion trigger (comment out if not connected)
 #define AMC7812_CNVT_PORT PORTL
 #define AMC7812_CNVT_DDR  DDRL
-#define AMC7812_CVNT_PIN  3    // mega pin 46
+#define AMC7812_CNVT_PIN  3    // mega pin 46
 
 #endif
