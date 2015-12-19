@@ -236,19 +236,7 @@ include_directories("${PROJECT_SOURCE_DIR}")
 ### Main Arduino library that must be included if any arduino library is used
 add_subdirectory(libarduinocore) 
 ### Standard Arduino 1.0.5 libraries
-add_subdirectory(EEPROM)          # EEPROM
-#add_subdirectory(Esplora)        # esplora is not supported
-#add_subdirectory(Firmata)        # Firmata is not supported  
-#add_subdirectory(GSM)            # library for the GSM shield, not supported
-add_subdirectory(LiquidCrystal)   # library for most text based LCDs
-add_subdirectory(SD)              # library for sd cards
-add_subdirectory(Servo)           # library for servo motor control
-add_subdirectory(SoftwareSerial)  # bit-banged serial communication
 add_subdirectory(SPI)             # SPI communication library
-add_subdirectory(Stepper)         # library for stepper motor control
-#add_subdirectory(TFT)             # library for TFT LCD screen is not supported right now
-add_subdirectory(WiFi)            # library for wifi sheild
-add_subdirectory(Wire)            # I2C/TWI communication
 
 ### ETHERNET LIBRARIES, CAN ONLY HAVE 1 ACTIVATED OR THEY INTERFERE
 # if you change the library type you have to copy the headers into the 
@@ -262,13 +250,16 @@ add_subdirectory(uIPEthernet)     # uIPEthernet Library for Micochip ENC28J60 ch
 
 ### AMC7812 Chip Driver
 add_subdirectory(amc7812)         # TI AMC7812 ADC & DAC
-add_subdirectory(usart)           # simple serial communication, without arduino
+
+### Feedback loop library
+add_subdirectory(feedbackLib)     # uses amc7812 as interface device for feedback
 
 ### add example executable directories, but dont automatically compile it
 ### to compile: cd build ; make amc7812_[example name]
-add_subdirectory(blink EXCLUDE_FROM_ALL)
+### to upload: cd build ; make upload_amc7812_[example name]
 add_subdirectory(amc7812/examples EXCLUDE_FROM_ALL)
 add_subdirectory(uIPEthernet/examples/udpDataStream EXCLUDE_FROM_ALL)
+add_subdirectory(feedbackLib/examples EXCLUDE_FROM_ALL)
 
 ################################################################################
 # status messages
