@@ -6,6 +6,41 @@ A final hardware design is, as of yet, unfinished.
 
 Derived from the ocs-base project.
 
+## How To Use
+
+### You
+
+Just fork the repo as normal, remove/add libraries, write code, etc.
+Each library needs a CMakeLists.txt file in the top level of the library, and if applicable also in the {library_dir}/examples/ directory as well.
+See amc7812 for an example directory structure.
+Of course, you can structure your libraries however you want, but that will need to be reflected in the CMakeLists.txt files.
+
+### Me
+
+github doesn't allow you to fork your own repo, so to make a new project that derives from this one I need to:
+
+ * Create an empty repo on github with the desired project name, no readme/license etc.
+
+```Bash
+$ git clone https://github.com/orthogonal-systems/ocs-myproject
+$ cd ocs-project
+$ git remote add upstream https://github.com/Orthogonal-Systems/ocs-base.git 
+$ git pull upstream master
+```
+ * make your initial changes, edit readme, add/remove libraries, whatever
+
+```Bash
+$ git submodule update --init --recursive
+$ git commit -m "inital commit"
+$ git push origin master
+```
+
+Changes to ocs-base can be applied by merging with:
+
+```Bash
+$ git pull upstream master
+```
+
 ## Dependancies
 What I've run it with.  I need to improve this list.
 
