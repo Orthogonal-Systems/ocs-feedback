@@ -21,8 +21,8 @@
 cmake_minimum_required(VERSION 2.8)
 project (ocs-base)
  
-#SET(BOARD_NAME "uno")
-SET(BOARD_NAME "mega2560")
+SET(BOARD_NAME "uno")
+#SET(BOARD_NAME "mega2560")
 #SET(BOARD_NAME "mega") // older
 
 ################################################################################

@@ -9,11 +9,12 @@ class Controller {
     static const uint8_t i_channels = I_CHANNELS;  //!< input channel length
     static const uint8_t o_channels = O_CHANNELS;  //!< output channel length
     int8_t transfer_matrix[o_channels][i_channels];  //!< transfer matrix
-    int16_t last_output[o_channels];  //!< the last value written to the outputs
-    int16_t new_output[o_channels];   //!< the next value written to the outputs
+//    int16_t last_output[o_channels];  //!< the last value written to the outputs
+    int16_t output[o_channels];   //!< the next value written to the outputs
 
   public:
     Controller();
+    Controller( int16_t* init_output );
 
     //! Calculate the next output value based on the
     /*!
@@ -26,7 +27,7 @@ class Controller {
     /*!
      * \return next vlue to push to the output
      */
-    int16_t* GetNextValue(){ return new_output; };
+    int16_t* GetNextValue(){ return output; };
 
     //! Resets all feedback memory
     /*!
