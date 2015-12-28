@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "feedback_conf.h"
+#include "utility.h"
 
 //! Error computation and statistics handling
 /*!
@@ -10,13 +11,18 @@
  */
 class Error {
   private:
-    static const uint8_t chs = I_CHANNELS; //!< input channels 
-    uint16_t channel_mask;                //!< enabled channels, bitwise
-    int16_t references[chs];             //!< channel setpoints
-    int16_t last_errors[chs];            //!< stores last error calculation
-    int16_t error_mean[chs];             //!< stores mean errors
-    uint16_t error_rms[chs];              //!< stores rms errors
-    uint16_t smoothing_factor[chs];       //!< discrete time rc-factor
+    static const uint8_t i_chs = I_CHANNELS;  //!< input channels 
+    static const uint8_t e_chs = O_CHANNELS;  //!< input channels 
+    uint16_t channel_mask;                    //!< enabled channels, bitwise
+    int16_t references[i_chs];                //!< channel setpoints
+    errors_t errors;                    
+
+    int16_t error_in[i_chs];                  //!< stores last error calculation from inputs
+    int16_t error_in_mean[i_chs];             //!< stores mean error calculation from inputs
+    uint16_t error_in_var[i_chs];             //!< stores error variance from inputs
+    uint16_t smoothing_factor[i_chs];         //!< discrete time rc-factor
+
+    int8_t error_matrix[e_chs][i_chs];        //!< handles coupled inputs
 
   public: 
     //! Class constructor
@@ -35,34 +41,47 @@ class Error {
     /*!
      * \return pointer to last_errors data array
      */
-    int16_t* GetErrors(){ return last_errors; };
+    int16_t* GetPErrors(){ return errors.error_P; };
+
+    //! get the last errors, dont refresh
+    /*!
+     * \return pointer to last_errors data array
+     */
+    int16_t* GetIErrors(){ return errors.error_I; };
+
+    //! get the last errors, dont refresh
+    /*!
+     * \return pointer to last_errors data array
+     */
+    int16_t* GetDErrors(){ return errors.error_D; };
+
+    //! get the last errors, dont refresh
+    /*!
+     * \return pointer to error struct
+     */
+    errors_t GetErrors(){ return errors; };
 
     //! calculate new error values from inputs
     /*!
-     * \param i_vals holds input values from each channel
-     * \return newest error value
-     *
-     * calculates errors, means, and rms values
-     */
-    int16_t* CalculateErrors( int16_t *i_vals );
+      * \param i_vals holds input values from each channel
+      * \param deltaT holds time in us since last error reading (for calculating freq)
+      * \return newest error value
+      *
+      * calculates PID errors, means, and variance values
+      */
+    errors_t CalculateErrors( int16_t *i_vals, uint16_t deltaT_us );
 
     //! get the mean error values
     /*!
      * \return channel error means
      */
-    int16_t* GetErrorMean(){ return error_mean; };
+    int16_t* GetErrorMean(){ return error_in_mean; };
 
     //! get the rms error values
     /*!
      * \return channel error rms
      */
-    uint16_t* GetErrorRMS(){ return error_rms; };
-
-    //! get the number of available input channels
-    /*!
-     * \return available input channels
-     */
-    const uint8_t GetChannels(){ return chs; };
+    uint16_t* GetErrorVariance(){ return error_in_var; };
 
     //! set the smoothing factors
     /*!
@@ -72,7 +91,7 @@ class Error {
      *  `SetTimeConst_us()` or `SetTimeConst_ms()`
      */
     void SetSmoothingFactor( uint16_t* sf ){
-      for(uint8_t i=0; i<chs; i++){
+      for(uint8_t i=0; i<i_chs; i++){
         smoothing_factor[i] = sf[i];
       }
     }
@@ -97,7 +116,7 @@ class Error {
      *  `SetChTimeConst_us()` or `SetChTimeConst_ms()`
      */
     void SetChSmoothingFactor( uint8_t n, uint16_t sf ){
-      if ( n < chs ){
+      if ( n < i_chs ){
         smoothing_factor[n] = sf;
       }
     }
@@ -119,7 +138,7 @@ class Error {
      * \return computed smoothing factors
      */
     uint16_t* SetTimeConst_ms( uint16_t* rc ){
-      for( uint8_t i = 0; i<chs; i++ ){
+      for( uint8_t i = 0; i<i_chs; i++ ){
         smoothing_factor[i] = (uint16_t)((((uint32_t)rc[i]<<16)/(0xFFFF - rc[i]))>>16);
       }
       return smoothing_factor;
@@ -142,6 +161,40 @@ class Error {
      */
     uint16_t GetChTimeConst_ms( uint8_t n ){
       return (uint16_t)(smoothing_factor[n]/(0xFFFF + smoothing_factor[n]));
+    }
+
+    //! Set pointer to error matrix
+    /*! 
+     * \param tm pointer to error matrix
+     *
+     */
+    void SetErrorMatrix( int8_t** em );
+
+    //! Get pointer to error matrix
+    /*!
+     * Get a pointer to the transer matrix
+     */
+//    uint8_t** GetErrorMatrix(){
+//      return error_matrix;
+//    }
+
+    //! Set index of error matrix
+    /*!
+     *  \param row denotes the desired index row
+     *  \param col denotes the desired index column
+     *  \param val value to be stored
+     */
+    void SetErrorMatrixEntry( uint8_t row, uint8_t col, uint8_t val ){
+      error_matrix[row][col] = val;
+    }
+
+    //! Get index of error matrix
+    /*!
+     *  \param row denotes the desired index row
+     *  \param col denotes the desired index column
+     */
+    uint8_t GetErrorMatrixEntry( uint8_t row, uint8_t col ){
+      return error_matrix[row][col];
     }
 };
 

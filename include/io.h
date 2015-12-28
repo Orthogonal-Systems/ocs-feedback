@@ -31,7 +31,7 @@ class IO {
     int16_t o_vals[o_channels];               //!< result of last channel reads
     uint8_t status;                           //!< device status register
     uint16_t last_call_us;                    //!< timestamp from last read, in microseconds
-    uint16_t dt_us;                           //!< elasped time between last two reads, in microseconds
+    uint16_t deltaT_us;                           //!< elasped time between last two reads, in microseconds
 
     //! generate bit mask for 
 
@@ -136,6 +136,8 @@ class IO {
     void UpdateDAC(){
       amc7812.UpdateDAC();
     }
+
+    uint16_t GetDeltaT_us(){ return deltaT_us; };
 };
 
 #endif
