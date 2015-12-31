@@ -12,24 +12,24 @@ class Controller {
     int16_t output[o_channels];     //!< the next value written to the outputs
     int16_t weights[o_channels][3]; //!< controller gain, [ kp[n], ki[n], kd[n] ]
 
-    void init( int16_t* init_output );
+    void init( const int16_t* init_output );
 
   public:
     Controller();
-    Controller( int16_t* init_output );
+    Controller( const int16_t* init_output );
 
     //! Calculate the next output value based on the
     /*!
      * \param errors pointer to current error value
      * \return errors code, 0 for no error
      */
-    uint8_t CalcNextValue( errors_t errors );
+    uint8_t CalcNextValue( const errors_t errors );
 
     //! Get the next value to push to the output
     /*!
      * \return next vlue to push to the output
      */
-    int16_t* GetNextValue(){ return output; };
+    const int16_t* GetNextValue() const { return output; };
 
     //! Resets all feedback memory
     /*!
@@ -38,7 +38,7 @@ class Controller {
      * Override the last_output value stored and clear history.
      * It is necessary to initialize to a reasonable output
      */
-    void Reset( int16_t* val );
+    void Reset( const int16_t* val );
 
     //void Flush(); // is this necessary?
 
@@ -46,7 +46,7 @@ class Controller {
     /*!
      * \return number of output channels availble on the device
      */
-    const uint8_t GetOChannels(){ return o_channels; };
+    const uint8_t GetOChannels() { return o_channels; };
 
 };
 

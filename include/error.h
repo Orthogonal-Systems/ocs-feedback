@@ -32,34 +32,34 @@ class Error {
     Error();
 
     //! return the reference points
-    int16_t* GetReferences(){ return references; };
+    const int16_t* GetReferences() const { return references; };
 
     //! change the references for each channel
-    void   SetReferences( int16_t *_references );
+    void SetReferences( const int16_t *_references );
 
     //! get the last errors, dont refresh
     /*!
      * \return pointer to last_errors data array
      */
-    int16_t* GetPErrors(){ return errors.error_P; };
+    const int16_t* GetPErrors() const { return errors.error_P; };
 
     //! get the last errors, dont refresh
     /*!
      * \return pointer to last_errors data array
      */
-    int16_t* GetIErrors(){ return errors.error_I; };
+    const int16_t* GetIErrors() const { return errors.error_I; };
 
     //! get the last errors, dont refresh
     /*!
      * \return pointer to last_errors data array
      */
-    int16_t* GetDErrors(){ return errors.error_D; };
+    const int16_t* GetDErrors() const { return errors.error_D; };
 
     //! get the last errors, dont refresh
     /*!
-     * \return pointer to error struct
+     * \return reference to error struct
      */
-    errors_t GetErrors(){ return errors; };
+    const errors_t & GetErrors() const { return errors; };
 
     //! calculate new error values from inputs
     /*!
@@ -69,19 +69,19 @@ class Error {
       *
       * calculates PID errors, means, and variance values
       */
-    errors_t CalculateErrors( int16_t *i_vals, uint16_t deltaT_us );
+    const errors_t & CalculateErrors ( const int16_t *i_vals, uint16_t deltaT_us );
 
     //! get the mean error values
     /*!
      * \return channel error means
      */
-    int16_t* GetErrorMean(){ return error_in_mean; };
+    const int16_t* GetErrorMean() const { return error_in_mean; };
 
     //! get the rms error values
     /*!
      * \return channel error rms
      */
-    uint16_t* GetErrorVariance(){ return error_in_var; };
+    const uint16_t* GetErrorVariance() const { return error_in_var; };
 
     //! set the smoothing factors
     /*!
@@ -103,7 +103,7 @@ class Error {
      *  gets the smoothing facotr as a raw number, to get as time in ms(us) use:
      *  `GetTimeConst_us()` or `GetTimeConst_ms()`
      */
-    uint16_t* GetSmoothingFactor(){
+    const uint16_t* GetSmoothingFactor() const {
       return smoothing_factor;
     }
 
@@ -137,7 +137,7 @@ class Error {
      * \param rc is the rc time constant in ms
      * \return computed smoothing factors
      */
-    uint16_t* SetTimeConst_ms( uint16_t* rc ){
+    const uint16_t* SetTimeConst_ms ( uint16_t* rc ){
       for( uint8_t i = 0; i<i_chs; i++ ){
         smoothing_factor[i] = (uint16_t)((((uint32_t)rc[i]<<16)/(0xFFFF - rc[i]))>>16);
       }
@@ -168,7 +168,7 @@ class Error {
      * \param tm pointer to error matrix
      *
      */
-    void SetErrorMatrix( int8_t** em );
+    void SetErrorMatrix( const int8_t** em );
 
     //! Get pointer to error matrix
     /*!

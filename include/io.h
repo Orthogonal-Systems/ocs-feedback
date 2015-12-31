@@ -30,8 +30,8 @@ class IO {
     int16_t i_vals[i_channels];               //!< result of last channel reads
     int16_t o_vals[o_channels];               //!< result of last channel reads
     uint8_t status;                           //!< device status register
-    uint16_t last_call_us;                    //!< timestamp from last read, in microseconds
-    uint16_t deltaT_us;                           //!< elasped time between last two reads, in microseconds
+    uint32_t last_call_us;                    //!< timestamp from last read, in microseconds
+    uint32_t deltaT_us;                           //!< elasped time between last two reads, in microseconds
 
     //! generate bit mask for 
 
@@ -68,7 +68,7 @@ class IO {
      *
      * Get last read value from inputs, but don't update the reads.
      */
-    int16_t* GetLastInputs(){ return i_vals; };
+    const int16_t * GetLastInputs() const { return i_vals; };
 
     //! Return the number of available input channels
     /*!
@@ -96,21 +96,13 @@ class IO {
      *
      * dac is not updated until `UpdateDac()` is called
      */
-    void SetOutputs( int16_t* vals );
+    void SetOutputs( const int16_t* vals );
 
     //! Get the last set of values written to the output device
     /*!
      * \return pointer to the last set of values written to the output device
      */
-    int16_t* GetOutputs(){ return o_vals; };
-
-    //! Get the last output values
-    /*!
-     * \return pointer to o_vals data array
-     *
-     * Get last read value from inputs, but don't update the reads.
-     */
-    int16_t* GetLastOutputs(){ return o_vals; };
+    const int16_t * GetOutputs() const { return o_vals; };
 
     //! Return the number of available output channels
     /*!
@@ -137,7 +129,33 @@ class IO {
       amc7812.UpdateDAC();
     }
 
-    uint16_t GetDeltaT_us(){ return deltaT_us; };
+    uint32_t GetDeltaT_us(){ return deltaT_us; };
+    //uint16_t GetDeltaT_ms(){ return deltaT_us/1000; };
+
+    //! Set the ADC update mode to triggered
+    /*!
+      *  The adc values will only be updated when triggered
+      */
+    void SetTriggeredADCMode();
+
+    //! Set the ADC update mode to continuous
+    /*!
+      *  The adc values will be updated constantly
+      */
+    void SetContinuousADCMode();
+
+    //! Set the DAC update mode to triggered
+    /*!
+     *  The dac values will only be pushed to the outputs when triggered
+     */
+    void SetTriggeredDACMode();
+
+    //! Set the DAC update mode to continuous
+    /*!
+     *  The dac values will be pushed to the outputs as soon as the register is
+     *  updated
+     */
+    void SetContinuousDACMode();
 };
 
 #endif
