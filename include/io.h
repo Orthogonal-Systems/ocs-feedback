@@ -33,7 +33,15 @@ class IO {
     uint32_t last_call_us;                    //!< timestamp from last read, in microseconds
     uint32_t deltaT_us;                           //!< elasped time between last two reads, in microseconds
 
-    //! generate bit mask for 
+    //! Perform a read of active ADC channels and add the result to dest
+    /*!
+     * \param dest is a pointer to the array (length i_channels) where the data
+     * is to be stored
+     * \return error code from amc7812.ReadADCs() operation
+     *
+     * Add result of reads to the values in dest, divided by 2**n (for averaging)
+     */
+    uint8_t ReadADCs( int16_t* dest, uint8_t n );
 
   public:
     //! class constructor
@@ -61,6 +69,17 @@ class IO {
      * Value of non-enabled channels is not defined at this level, check the driver.
      */
     int8_t ReadInputs();
+
+    //! Perform 2**n read operations and average, updating i_vals data array
+    /*!
+      * \param number of averages in powers of 2, 2**n, n>=8 -> n = 7
+      * \return device error code, 0 is for no error
+      *
+      * Reads and averages enabled input channels from device, data array is stored 
+      * retrieve with `GetLastInputs()`.
+      * Value of non-enabled channels is not defined at this level, check the driver.
+      */
+    int8_t ReadInputs( uint8_t n );
 
     //! Get the last read values, don't update
     /*!
